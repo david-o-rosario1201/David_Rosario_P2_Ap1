@@ -1,0 +1,15 @@
+﻿@page "/DeleteSegundoParcial"
+@page "/DeleteSegundoParcial/segundoParcialId={segundoParcialId:int}"
+@inject NavigationManager navigation
+
+<h3>Delete</h3>
+
+@code {
+	[Parameter]
+	public int segundoParcialId { get; set; }
+
+	public void Volver()
+	{
+		navigation.NavigateTo("/SegundoParcial");
+	}
+}

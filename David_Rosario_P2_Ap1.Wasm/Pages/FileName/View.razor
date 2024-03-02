@@ -1,0 +1,15 @@
+﻿@page "/ViewSegundoParcial"
+@page "/ViewSegundoParcial/segundoParcialI={segundoParcialId:int}"
+@inject NavigationManager navigation
+
+<h3>View</h3>
+
+@code {
+	[Parameter]
+	public int segundoParcialId { get; set; }
+
+	public void Volver()
+	{
+		navigation.NavigateTo("/SegundoParcial");
+	}
+}

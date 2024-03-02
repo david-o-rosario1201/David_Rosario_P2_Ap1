@@ -1,0 +1,25 @@
+﻿@page "/SegundoParcial"
+@inject NavigationManager navigation
+
+<h3>Index</h3>
+
+@code {
+
+
+	public void IrACrear()
+	{
+		navigation.NavigateTo("/CreateSegundoParcial");
+	}
+	public void IrAView(int id)
+	{
+		navigation.NavigateTo($"/ViewSegundoParcial/segundoParcialId={id}");
+	}
+	public void IrAEditar(int id)
+	{
+		navigation.NavigateTo($"/EditSegundoParcial/segundoParcialId={id}");
+	}
+	public void IrAEliminar(int id)
+	{
+		navigation.NavigateTo($"/DeleteSegundoParcial/segundoParcialId={id}");
+	}
+}

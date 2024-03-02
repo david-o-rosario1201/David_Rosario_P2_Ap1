@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "David_Rosario_P2_Ap1.Wasm", "David_Rosario_P2_Ap1.Wasm.csproj", "{DB021952-8D77-453E-89E5-6306F08DBA1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "David_Rosario_P2_Ap1.Api", "..\David_Rosario_P2_Ap1.Api\David_Rosario_P2_Ap1.Api.csproj", "{8443EADE-1441-411C-BE63-1C21D61F18EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB021952-8D77-453E-89E5-6306F08DBA1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB021952-8D77-453E-89E5-6306F08DBA1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB021952-8D77-453E-89E5-6306F08DBA1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB021952-8D77-453E-89E5-6306F08DBA1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8443EADE-1441-411C-BE63-1C21D61F18EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8443EADE-1441-411C-BE63-1C21D61F18EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8443EADE-1441-411C-BE63-1C21D61F18EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8443EADE-1441-411C-BE63-1C21D61F18EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0F826284-C5DB-4BC1-B5FA-1F6C30D888D7}
+	EndGlobalSection
+EndGlobal

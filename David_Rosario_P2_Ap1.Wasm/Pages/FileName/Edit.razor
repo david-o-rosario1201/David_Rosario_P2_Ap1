@@ -1,0 +1,15 @@
+﻿@page "/EditSegundoParcial"
+@page "/EditSegundoParcial/segundoParcialId={segundoParcialId:int}"
+@inject NavigationManager navigation
+
+<h3>Edit</h3>
+
+@code {
+	[Parameter]
+	public int segundoParcialId { get; set; }
+
+	public void Volver()
+	{
+		navigation.NavigateTo("/SegundoParcial");
+	}
+}

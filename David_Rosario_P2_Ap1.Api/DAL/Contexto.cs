@@ -11,10 +11,11 @@ public class Contexto : DbContext
     }
 
     public DbSet<Accesorios> Accesorios { get; set; }
+    public DbSet<Vehiculos> Vehiculos { get; set; }
 
 
 
-	protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Accesorios>().HasData(new List<Accesorios>()

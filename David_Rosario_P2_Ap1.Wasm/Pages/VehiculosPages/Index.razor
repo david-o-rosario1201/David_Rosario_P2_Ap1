@@ -1,10 +1,86 @@
-﻿@page "/SegundoParcial"
+﻿@page "/Vehiculos"
 @inject NavigationManager navigation
 @inject HttpClient httpClient
 
-<h3>Index</h3>
+<PageTitle>Veh&iacute;culos</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		<div class="card-header">
+			<h3><strong>Veh&iacute;culos</strong></h3>
+			<button type="button" class="btn btn-outline-primary" @onclick="IrACrear"><i class="bi bi-plus-circle" /> Crear</button>
+		</div>
+		<div class="card-body">
+			@if(loading)
+			{
+				<div class="d-flex justify-content-center">
+					<div class="spinner-border text-info">
+					</div>
+				</div>
+			}
+			else if(vehiculos.Count == 0)
+			{
+				<h1><i class="bi bi-exclamation-triangle"/> No hay veh&iacute;culos creados</h1>
+			}
+			else
+			{
+				
+
+
+
+
+				@*Tabla*@
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Veh&iacute;culoId</th>
+							<th>Fecha</th>
+							<th>Descripci&oacute;n</th>
+							<th>Costo</th>
+							<th>Gasto</th>
+							<th>Ver</th>
+							<th>Editar</th>
+							<th>Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach(var vehiculo in vehiculos)
+						{
+							<tr>
+								<td>@vehiculo.VehiculoId</td>
+								<td>@vehiculo.Fecha</td>
+								<td>@vehiculo.Descripcion</td>
+								<td>@vehiculo.Costo</td>
+								<td>@vehiculo.Gastos</td>
+								<td><button type="button" class="btn btn-outline-info" @onclick="IrAView"><i class="bi bi-eye" /></button></td>
+								<td><button type="button" class="btn btn-outline-warning" @onclick="IrAEditar"><i class="bi bi-pencil-square" /></button></td>
+								<td><button type="button" class="btn btn-outline-danger" @onclick="IrAEliminar"><i class="bi bi-trash3-fill" /></button></td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			}
+		</div>
+		<div class="card-footer">
+			<p><strong>Cantidad de Veh&iacute;culos: </strong>@vehiculos.Count</p>
+		</div>
+	</div>
+</div>
 
 @code {
+	public bool loading { get; set; } = true;
+	public List<Vehiculos> vehiculos = new List<Vehiculos>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Delay(500);
+
+		vehiculos = await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos");
+
+		loading = false;
+
+		if (vehiculos.Count > 0)
+			StateHasChanged();
+	}
 
 
 	public void IrACrear()

@@ -1,16 +1,183 @@
-﻿@page "/EditSegundoParcial"
-@page "/EditSegundoParcial/segundoParcialId={segundoParcialId:int}"
+﻿@page "/EditVehiculos"
+@page "/EditVehiculos/vehiculoId={vehiculoId}"
 @inject NavigationManager navigation
 @inject HttpClient httpClient
 
-<h3>Edit</h3>
+<PageTitle>Editar Veh&iacute;culo</PageTitle>
+<EditForm Model="vehiculo" OnValidSubmit="Modificar">
+	<DataAnnotationsValidator />
+	<div class="container">
+		<div class="card shadow-lg">
+			<div class="card-header">
+				<h3><strong>Editar Veh&iacute;culo</strong></h3>
+			</div>
+			<div class="card-body">
+				<div class="row mb-3">
+					@*VehiculoId*@
+					<div class="col-4">
+						<label class="form-label" for="vehiculoId"><strong>Veh&iacute;culoId:</strong></label>
+						<InputNumber id="vehiculoId" class="form-control" @bind-Value="vehiculo.VehiculoId" disabled></InputNumber>
+					</div>
+					@*Fecha*@
+					<div class="col-4">
+						<label class="form-label" for="Fecha"><strong>Fecha:</strong></label>
+						<InputDate id="fecha" class="form-control" @bind-Value="vehiculo.Fecha"></InputDate>
+					</div>
+					@*Descripcion*@
+					<div class="col-4">
+						<label class="form-label" for="descripcion"><strong>Descripci&oacute;n:</strong></label>
+						<InputTextArea id="descripcion" class="form-control" @bind-Value="vehiculo.Descripcion" placeholder="Ingrese una descripción..."></InputTextArea>
+						<ValidationMessage For="@(()=> vehiculo.Descripcion)"></ValidationMessage>
+					</div>
+				</div>
+				<div clas="row mb-3">
+					@*Costo*@
+					<div class="col-4">
+						<label class="form-label" for="costo"><strong>Costo:</strong></label>
+						<InputNumber id="costo" class="form-control" @bind-Value="vehiculo.Costo"></InputNumber>
+						<ValidationMessage For="@(()=> vehiculo.Costo)"></ValidationMessage>
+					</div>
+					@*Gastos*@
+					<div class="col-4">
+						<label class="form-label" for="gastos"><strong>Gastos:</strong></label>
+						<InputNumber id="gastos" class="form-control" @bind-Value="vehiculo.Gastos"></InputNumber>
+						<ValidationMessage For="@(()=> vehiculo.Gastos)"></ValidationMessage>
+					</div>
+				</div>
+
+
+
+				@*Detalle*@
+				<div class="card card-header">
+					<h3><strong>Detalles</strong></h3>
+				</div>
+
+				<div class="card-body">
+					<section>
+						<div clas="row mb-3">
+							@*AcesorioId*@
+							<div class="col-4">
+								<label class="form-label" for="accesorioId"><strong>Accesorio:</strong></label>
+								<InputSelect id="accesorio" class="form-select" @bind-Value="accesorioId">
+									<option value="" selected>Elija una opci&oacute;n</option>
+									@foreach (var accesorio in accesorios)
+									{
+										<option value="@accesorio.AccesorioId">@accesorio.Descripcion</option>
+									}
+								</InputSelect>
+							</div>
+							@*Valor*@
+							<div class="col-4">
+								<label class="form-label" for="valor"><strong>Valor:</strong></label>
+								<InputNumber id="valor" class="form-control" @bind-Value="valor"></InputNumber>
+							</div>
+						</div>
+
+						@*Tabla Detalles*@
+						@if (vehiculo.VehiculosDetalles.Count > 0)
+						{
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>AccesorioId</th>
+										<th>Descripci&oacute;n</th>
+										<th>Valor</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var detalle in vehiculo.VehiculosDetalles)
+									{
+										<tr>
+											<td>@detalle.AccesorioId</td>
+											<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
+											<td>@detalle.Valor</td>
+											<td><button type="button" class="btn btn-outline-danger" @onclick="EliminarDetalle()"><i class="bi bi-trash3-fill" /></button></td>
+										</tr>
+									}
+								</tbody>
+							</table>
+							<p><strong>Cantidad de Detalles: </strong>@vehiculo.VehiculosDetalles.Count</p>
+						}
+					</section>
+				</div>
+
+			</div>
+			<div class="card-footer">
+				<button type="button" class="btn btn-outline-primary" @onclick="IrACrear"><i class="bi bi-plus-circle" /> Crear</button>
+			</div>
+		</div>
+	</div>
+</EditForm>
+@mensaje
 
 @code {
 	[Parameter]
-	public int segundoParcialId { get; set; }
+	public int vehiculoId { get; set; }
+	public Vehiculos vehiculo { get; set; } = new Vehiculos();
+	public List<Accesorios> accesorios = new List<Accesorios>();
+	public int accesorioId { get; set; }
+	public decimal valor { get; set; }
+	public string mensaje { get; set; }
 
-	public void Volver()
+	protected override async Task OnInitializedAsync()
 	{
-		navigation.NavigateTo("/SegundoParcial");
+		await Task.Delay(500);
+
+		vehiculos = await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos");
+
+		accesorios = await httpClient.GetFromJsonAsync<List<Accesorios>>("api/Accesorios");
+	}
+
+	public async Task Modificar()
+	{
+		var response = await httpClient.PutAsJsonAsync($"api/Vehiculos/{vehiculoId}",vehiculo);
+		if (response.IsSuccessStatusCode)
+		{
+			mensaje = "Vehículo modificado con éxito";
+		}
+		else
+		{
+			mensaje = "No se pudo modificar el vehículo con éxito";
+		}
+
+		StateHasChanged();
+	}
+
+	public async Task AgregarDetalle()
+	{
+		if (accesorioId == 0)
+		{
+			mensaje = "Debe elegir un accesorioId";
+		}
+
+		else if (valor == 0)
+		{
+			mensaje = "Debe ingresar un valor";
+		}
+
+		else
+		{
+			var nuevoDetalle = new VehiculosDetalle() { AccesorioId = accesorioId, Valor = valor };
+			vehiculo.VehiculosDetalles.Add(nuevoDetalle);
+		}
+
+		StateHasChanged();
+	}
+
+
+	public string ObtenerDescripcion(int id)
+	{
+		var descripcion = accesorios.FirstOrDefault(a => a.AccesorioId == id);
+		return descripcion.Descripcion;
+	}
+
+
+	public void IrACrear()
+	{
+		navigation.NavigateTo("/Vehiculos");
+	}
+	public void EliminarDetalle()
+	{
+
 	}
 }

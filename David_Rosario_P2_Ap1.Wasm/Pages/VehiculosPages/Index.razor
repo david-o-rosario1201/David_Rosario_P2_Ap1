@@ -51,9 +51,9 @@
 								<td>@vehiculo.Descripcion</td>
 								<td>@vehiculo.Costo</td>
 								<td>@vehiculo.Gastos</td>
-								<td><button type="button" class="btn btn-outline-info" @onclick="IrAView"><i class="bi bi-eye" /></button></td>
-								<td><button type="button" class="btn btn-outline-warning" @onclick="IrAEditar"><i class="bi bi-pencil-square" /></button></td>
-								<td><button type="button" class="btn btn-outline-danger" @onclick="IrAEliminar"><i class="bi bi-trash3-fill" /></button></td>
+								<td><button type="button" class="btn btn-outline-info" @onclick="()=>IrAView(vehiculo.VehiculoId)"><i class="bi bi-eye" /></button></td>
+								<td><button type="button" class="btn btn-outline-warning" @onclick="()=>IrAEditar(vehiculo.VehiculoId)"><i class="bi bi-pencil-square" /></button></td>
+								<td><button type="button" class="btn btn-outline-danger" @onclick="()=>IrAEliminar(vehiculo.VehiculoId)"><i class="bi bi-trash3-fill" /></button></td>
 							</tr>
 						}
 					</tbody>

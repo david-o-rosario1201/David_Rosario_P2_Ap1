@@ -22,33 +22,31 @@
 			</ul>
 
 			@*Tabla Detalles*@
-						@if (vehiculo.VehiculosDetalles.Count > 0)
+			@if (vehiculo.VehiculosDetalles.Count > 0)
+			{
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>AccesorioId</th>
+							<th>Descripci&oacute;n</th>
+							<th>Valor</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var detalle in vehiculo.VehiculosDetalles)
 						{
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th>AccesorioId</th>
-										<th>Descripci&oacute;n</th>
-										<th>Valor</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach (var detalle in vehiculo.VehiculosDetalles)
-									{
-										<tr>
-											<td>@detalle.AccesorioId</td>
-											<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
-											<td>@detalle.Valor</td>
-											<td><button type="button" class="btn btn-outline-danger" @onclick="EliminarDetalle()"><i class="bi bi-trash3-fill" /></button></td>
-										</tr>
-									}
-								</tbody>
-							</table>
-							<p><strong>Cantidad de Detalles: </strong>@vehiculo.VehiculosDetalles.Count</p>
+							<tr>
+								<td>@detalle.AccesorioId</td>
+								<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
+								<td>@detalle.Valor</td>
+								<td><button type="button" class="btn btn-outline-danger" @onclick="()=>EliminarDetalle(detalle.AccesorioId)"><i class="bi bi-trash3-fill" /></button></td>
+							</tr>
 						}
-					</section>
-				</div>
-		</div>
+					</tbody>
+				</table>
+				<p><strong>Cantidad de Detalles: </strong>@vehiculo.VehiculosDetalles.Count</p>
+			}
+			</div>
 		<div class="card-footer">
 			<div class="px-2">
 				<button type="button" class="btn btn-outline-dark" @onclick="Volver"><i class="bi bi-box-arrow-clockwise" /> Cancelar</button>
@@ -73,8 +71,6 @@
 		await Task.Delay(500);
 
 		vehiculo = await httpClient.GetFromJsonAsync<Vehiculos>($"api/Vehiculos/{vehiculoId}");
-
-		vehiculos = await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos");
 
 		accesorios = await httpClient.GetFromJsonAsync<List<Accesorios>>("api/Accesorios");
 	}
@@ -128,7 +124,7 @@
 		navigation.NavigateTo("/Vehiculos");
 	}
 
-	public void EliminarDetalle()
+	public void EliminarDetalle(int id)
 	{
 
 	}

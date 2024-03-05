@@ -20,32 +20,29 @@
 			</ul>
 
 			@*Tabla Detalles*@
-						@if (vehiculo.VehiculosDetalles.Count > 0)
+			@if (vehiculo.VehiculosDetalles.Count > 0)
+			{
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>AccesorioId</th>
+							<th>Descripci&oacute;n</th>
+							<th>Valor</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var detalle in vehiculo.VehiculosDetalles)
 						{
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th>AccesorioId</th>
-										<th>Descripci&oacute;n</th>
-										<th>Valor</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach (var detalle in vehiculo.VehiculosDetalles)
-									{
-										<tr>
-											<td>@detalle.AccesorioId</td>
-											<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
-											<td>@detalle.Valor</td>
-											<td><button type="button" class="btn btn-outline-danger" @onclick="EliminarDetalle()"><i class="bi bi-trash3-fill" /></button></td>
-										</tr>
-									}
-								</tbody>
-							</table>
-							<p><strong>Cantidad de Detalles: </strong>@vehiculo.VehiculosDetalles.Count</p>
+							<tr>
+								<td>@detalle.AccesorioId</td>
+								<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
+								<td>@detalle.Valor</td>
+							</tr>
 						}
-					</section>
-				</div>
+					</tbody>
+				</table>
+				<p><strong>Cantidad de Detalles: </strong>@vehiculo.VehiculosDetalles.Count</p>
+			}
 		</div>
 		<div class="card-footer">
 			<button type="button" class="btn btn-outline-primary" @onclick="Volver"><i class="bi bi-box-arrow-clockwise" /> Volver</button>
@@ -69,8 +66,6 @@
 
 		vehiculo = await httpClient.GetFromJsonAsync<Vehiculos>($"api/Vehiculos/{vehiculoId}");
 
-		vehiculos = await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos");
-
 		accesorios = await httpClient.GetFromJsonAsync<List<Accesorios>>("api/Accesorios");
 	}
 
@@ -83,10 +78,5 @@
 	public void Volver()
 	{
 		navigation.NavigateTo("/Vehiculos");
-	}
-
-	public void EliminarDetalle()
-	{
-
 	}
 }

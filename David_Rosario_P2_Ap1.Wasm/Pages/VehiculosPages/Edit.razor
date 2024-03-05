@@ -91,7 +91,7 @@
 											<td>@detalle.AccesorioId</td>
 											<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
 											<td>@detalle.Valor</td>
-											<td><button type="button" class="btn btn-outline-danger" @onclick="EliminarDetalle()"><i class="bi bi-trash3-fill" /></button></td>
+											<td><button type="button" class="btn btn-outline-danger" @onclick="()=>EliminarDetalle(detalle.AccesorioId)"><i class="bi bi-trash3-fill" /></button></td>
 										</tr>
 									}
 								</tbody>
@@ -124,8 +124,6 @@
 		await Task.Delay(500);
 
 		vehiculo = await httpClient.GetFromJsonAsync<Vehiculos>($"api/Vehiculos/{vehiculoId}");
-
-		vehiculos = await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos");
 
 		accesorios = await httpClient.GetFromJsonAsync<List<Accesorios>>("api/Accesorios");
 	}
@@ -178,7 +176,7 @@
 	{
 		navigation.NavigateTo("/Vehiculos");
 	}
-	public void EliminarDetalle()
+	public void EliminarDetalle(int id)
 	{
 
 	}

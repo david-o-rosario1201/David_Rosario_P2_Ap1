@@ -85,18 +85,18 @@
 
 	public void IrACrear()
 	{
-		navigation.NavigateTo("/CreateSegundoParcial");
+		navigation.NavigateTo("/CreateVehiculos");
 	}
 	public void IrAView(int id)
 	{
-		navigation.NavigateTo($"/ViewSegundoParcial/segundoParcialId={id}");
+		navigation.NavigateTo($"/ViewCreateVehiculos/vehiculoId={id}");
 	}
 	public void IrAEditar(int id)
 	{
-		navigation.NavigateTo($"/EditSegundoParcial/segundoParcialId={id}");
+		navigation.NavigateTo($"/EditVehiculos/vehiculoId={id}");
 	}
 	public void IrAEliminar(int id)
 	{
-		navigation.NavigateTo($"/DeleteSegundoParcial/segundoParcialId={id}");
+		navigation.NavigateTo($"/DeleteVehiculos/vehiculoId={id}");
 	}
 }

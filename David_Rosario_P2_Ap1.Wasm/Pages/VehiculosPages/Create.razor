@@ -71,34 +71,35 @@
 								<InputNumber id="valor" class="form-control" @bind-Value="valor"></InputNumber>
 							</div>
 						</div>
+
+
+						@*Tabla Detalles*@
+						@if (vehiculo.VehiculosDetalles.Count > 0)
+						{
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>AccesorioId</th>
+										<th>Descripci&oacute;n</th>
+										<th>Valor</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var detalle in vehiculo.VehiculosDetalles)
+									{
+										<tr>
+											<td>@detalle.AccesorioId</td>
+											<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
+											<td>@detalle.Valor</td>
+											<td><button type="button" class="btn btn-outline-danger" @onclick="EliminarDetalle()"><i class="bi bi-trash3-fill" /></button></td>
+										</tr>
+									}
+								</tbody>
+							</table>
+							<p><strong>Cantidad de Detalles: </strong>@vehiculo.VehiculosDetalles.Count</p>
+						}
 					</section>
 				</div>
-
-
-				@*Tabla Detalles*@
-				@if(vehiculo.VehiculosDetalles.Count > 0)
-				{
-					<table class="table table-bordered">
-						<thead>
-							<tr>
-								<th>AccesorioId</th>
-								<th>Descripci&oacute;n</th>
-								<th>Valor</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach (var detalle in vehiculo.VehiculosDetalles)
-							{
-								<tr>
-									<td>@detalle.AccesorioId</td>
-									<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
-									<td>@detalle.Valor</td>
-									<td><button type="button" class="btn btn-outline-danger" @onclick="EliminarDetalle()"><i class="bi bi-trash3-fill" /></button></td>
-								</tr>
-							}
-						</tbody>
-					</table>
-				}
 
 			</div>
 			<div class="card-footer">

@@ -1,5 +1,5 @@
 ﻿@page "/EditVehiculos"
-@page "/EditVehiculos/vehiculoId={vehiculoId}"
+@page "/EditVehiculos/vehiculoId={vehiculoId:int}"
 @inject NavigationManager navigation
 @inject HttpClient httpClient
 
@@ -102,8 +102,11 @@
 				</div>
 
 			</div>
-			<div class="card-footer">
-				<button type="button" class="btn btn-outline-primary" @onclick="IrACrear"><i class="bi bi-plus-circle" /> Crear</button>
+			<div class="card-footer d-flex justify-content-center">
+				<div class="px-2">
+					<button type="button" class="btn btn-outline-primary" @onclick="Volver"><i class="bi bi-box-arrow-left" /> Volver</button>
+				</div>
+				<button type="submit" class="btn btn-outline-success"><i class="bi bi-floppy-fill" /> Modificar</button>
 			</div>
 		</div>
 	</div>
@@ -172,7 +175,7 @@
 	}
 
 
-	public void IrACrear()
+	public void Volver()
 	{
 		navigation.NavigateTo("/Vehiculos");
 	}

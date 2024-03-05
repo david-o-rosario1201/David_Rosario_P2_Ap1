@@ -123,6 +123,8 @@
 	{
 		await Task.Delay(500);
 
+		vehiculo = await httpClient.GetFromJsonAsync<Vehiculos>($"api/Vehiculos/{vehiculoId}");
+
 		vehiculos = await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos");
 
 		accesorios = await httpClient.GetFromJsonAsync<List<Accesorios>>("api/Accesorios");

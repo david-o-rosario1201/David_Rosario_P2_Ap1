@@ -67,54 +67,18 @@
 	{
 		await Task.Delay(500);
 
+		vehiculo = await httpClient.GetFromJsonAsync<Vehiculos>($"api/Vehiculos/{vehiculoId}");
+
 		vehiculos = await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos");
 
 		accesorios = await httpClient.GetFromJsonAsync<List<Accesorios>>("api/Accesorios");
 	}
-
-	public async Task Modificar()
-	{
-		var response = await httpClient.PutAsJsonAsync($"api/Vehiculos/{vehiculoId}", vehiculo);
-		if (response.IsSuccessStatusCode)
-		{
-			mensaje = "Vehículo modificado con éxito";
-		}
-		else
-		{
-			mensaje = "No se pudo modificar el vehículo con éxito";
-		}
-
-		StateHasChanged();
-	}
-
-	public async Task AgregarDetalle()
-	{
-		if (accesorioId == 0)
-		{
-			mensaje = "Debe elegir un accesorioId";
-		}
-
-		else if (valor == 0)
-		{
-			mensaje = "Debe ingresar un valor";
-		}
-
-		else
-		{
-			var nuevoDetalle = new VehiculosDetalle() { AccesorioId = accesorioId, Valor = valor };
-			vehiculo.VehiculosDetalles.Add(nuevoDetalle);
-		}
-
-		StateHasChanged();
-	}
-
 
 	public string ObtenerDescripcion(int id)
 	{
 		var descripcion = accesorios.FirstOrDefault(a => a.AccesorioId == id);
 		return descripcion.Descripcion;
 	}
-
 
 	public void Volver()
 	{

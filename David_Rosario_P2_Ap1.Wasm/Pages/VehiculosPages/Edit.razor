@@ -16,7 +16,7 @@
 					@*VehiculoId*@
 					<div class="col-4">
 						<label class="form-label" for="vehiculoId"><strong>Veh&iacute;culoId:</strong></label>
-						<InputNumber id="vehiculoId" class="form-control" @bind-Value="vehiculo.VehiculoId" disabled></InputNumber>
+						<InputNumber id="vehiculoId" class="form-control" @bind-Value="vehiculo.VehiculoId"></InputNumber>
 					</div>
 					@*Fecha*@
 					<div class="col-4">
@@ -30,7 +30,7 @@
 						<ValidationMessage For="@(()=> vehiculo.Descripcion)"></ValidationMessage>
 					</div>
 				</div>
-				<div clas="row mb-3">
+				<div class="row mb-3">
 					@*Costo*@
 					<div class="col-4">
 						<label class="form-label" for="costo"><strong>Costo:</strong></label>
@@ -40,68 +40,70 @@
 					@*Gastos*@
 					<div class="col-4">
 						<label class="form-label" for="gastos"><strong>Gastos:</strong></label>
-						<InputNumber id="gastos" class="form-control" @bind-Value="vehiculo.Gastos"></InputNumber>
+						<InputNumber id="gastos" class="form-control" @bind-Value="vehiculo.Gastos" disabled></InputNumber>
 						<ValidationMessage For="@(()=> vehiculo.Gastos)"></ValidationMessage>
 					</div>
 				</div>
-
-
-
-				@*Detalle*@
-				<div class="card card-header">
-					<h3><strong>Detalles</strong></h3>
-				</div>
-
-				<div class="card-body">
-					<section>
-						<div clas="row mb-3">
-							@*AcesorioId*@
-							<div class="col-4">
-								<label class="form-label" for="accesorioId"><strong>Accesorio:</strong></label>
-								<InputSelect id="accesorio" class="form-select" @bind-Value="accesorioId">
-									<option value="" selected>Elija una opci&oacute;n</option>
-									@foreach (var accesorio in accesorios)
-									{
-										<option value="@accesorio.AccesorioId">@accesorio.Descripcion</option>
-									}
-								</InputSelect>
-							</div>
-							@*Valor*@
-							<div class="col-4">
-								<label class="form-label" for="valor"><strong>Valor:</strong></label>
-								<InputNumber id="valor" class="form-control" @bind-Value="valor"></InputNumber>
-							</div>
-						</div>
-
-						@*Tabla Detalles*@
-						@if (vehiculo.VehiculosDetalles.Count > 0)
-						{
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th>AccesorioId</th>
-										<th>Descripci&oacute;n</th>
-										<th>Valor</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach (var detalle in vehiculo.VehiculosDetalles)
-									{
-										<tr>
-											<td>@detalle.AccesorioId</td>
-											<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
-											<td>@detalle.Valor</td>
-											<td><button type="button" class="btn btn-outline-danger" @onclick="()=>EliminarDetalle(detalle.AccesorioId)"><i class="bi bi-trash3-fill" /></button></td>
-										</tr>
-									}
-								</tbody>
-							</table>
-							<p><strong>Cantidad de Detalles: </strong>@vehiculo.VehiculosDetalles.Count</p>
-						}
-					</section>
-				</div>
-
 			</div>
+
+			@*Detalle*@
+			<div class="card card-header">
+				<h3><strong>Detalles</strong></h3>
+			</div>
+
+			<div class="card-body">
+				<section>
+					<div class="row mb-3">
+						@*AcesorioId*@
+						<div class="col-4">
+							<label class="form-label" for="accesorioId"><strong>Accesorio:</strong></label>
+							<InputSelect id="accesorio" class="form-select" @bind-Value="accesorioId">
+								<option value="" selected>Elija una opci&oacute;n</option>
+								@foreach (var accesorio in accesorios)
+								{
+									<option value="@accesorio.AccesorioId">@accesorio.Descripcion</option>
+								}
+							</InputSelect>
+						</div>
+						@*Valor*@
+						<div class="col-4">
+							<label class="form-label" for="valor"><strong>Valor:</strong></label>
+							<InputNumber id="valor" class="form-control" @bind-Value="valor"></InputNumber>
+						</div>
+						@*Botón*@
+						<div class="col-4 d-flex align-items-end">
+							<button type="button" class="btn btn-outline-success" @onclick="AgregarDetalle"><i class="bi bi-plus-circle" /> Add</button>
+						</div>
+					</div>
+
+					@*Tabla Detalles*@
+					@if (vehiculo.VehiculosDetalles.Count > 0)
+					{
+						<table class="table table-bordered miTabla">
+							<thead>
+								<tr>
+									<th>AccesorioId</th>
+									<th>Descripci&oacute;n</th>
+									<th>Valor</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var detalle in vehiculo.VehiculosDetalles)
+								{
+									<tr>
+										<td>@detalle.AccesorioId</td>
+										<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
+										<td>@detalle.Valor</td>
+										<td><button type="button" class="btn btn-outline-danger" @onclick="()=>EliminarDetalle(detalle)"><i class="bi bi-trash3-fill" /></button></td>
+									</tr>
+								}
+							</tbody>
+						</table>
+						<p><strong>Cantidad de Detalles: </strong>@vehiculo.VehiculosDetalles.Count</p>
+					}
+				</section>
+			</div>
+
 			<div class="card-footer d-flex justify-content-center">
 				<div class="px-2">
 					<button type="button" class="btn btn-outline-primary" @onclick="Volver"><i class="bi bi-box-arrow-left" /> Volver</button>
@@ -118,6 +120,7 @@
 	public int vehiculoId { get; set; }
 	public Vehiculos vehiculo { get; set; } = new Vehiculos();
 	public List<Accesorios> accesorios = new List<Accesorios>();
+	public List<VehiculosDetalle> listaTemporal = new List<VehiculosDetalle>();
 	public int accesorioId { get; set; }
 	public decimal valor { get; set; }
 	public string mensaje { get; set; }
@@ -133,17 +136,22 @@
 
 	public async Task Modificar()
 	{
+		if (listaTemporal.Count > 0)
+			await BorrarDetalleDB();
+
 		var response = await httpClient.PutAsJsonAsync($"api/Vehiculos/{vehiculoId}",vehiculo);
 		if (response.IsSuccessStatusCode)
 		{
 			mensaje = "Vehículo modificado con éxito";
+			StateHasChanged();
+			await Task.Delay(2000);
+			Volver();
 		}
 		else
 		{
 			mensaje = "No se pudo modificar el vehículo con éxito";
+			StateHasChanged();
 		}
-
-		StateHasChanged();
 	}
 
 	public async Task AgregarDetalle()
@@ -153,18 +161,28 @@
 			mensaje = "Debe elegir un accesorioId";
 		}
 
-		else if (valor == 0)
+		else if (valor <= 0)
 		{
-			mensaje = "Debe ingresar un valor";
+			mensaje = "El valor debe ser mayor que 0";
 		}
 
 		else
 		{
 			var nuevoDetalle = new VehiculosDetalle() { AccesorioId = accesorioId, Valor = valor };
+			vehiculo.Gastos += valor;
 			vehiculo.VehiculosDetalles.Add(nuevoDetalle);
 		}
 
 		StateHasChanged();
+		await LimpiarPantalla();
+	}
+
+	public async Task LimpiarPantalla()
+	{
+		valor = 0;
+		accesorioId = 0;
+		await Task.Delay(2000);
+		mensaje = string.Empty;
 	}
 
 
@@ -179,8 +197,25 @@
 	{
 		navigation.NavigateTo("/Vehiculos");
 	}
-	public void EliminarDetalle(int id)
+	public void EliminarDetalle(VehiculosDetalle detalle)
 	{
+		if (detalle.Id == 0)
+			vehiculo.VehiculosDetalles.Remove(detalle);
 
+		else
+		{
+			vehiculo.VehiculosDetalles.Remove(detalle);
+			listaTemporal.Add(detalle);
+		}
+
+		vehiculo.Gastos -= detalle.Valor;
+	}
+
+	public async Task BorrarDetalleDB()
+	{
+		foreach(var detalles in listaTemporal)
+		{
+			await httpClient.DeleteAsync($"api/Vehiculos/{vehiculoId}/Detalle/{detalles.Id}");
+		}
 	}
 }

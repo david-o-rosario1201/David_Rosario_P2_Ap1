@@ -121,6 +121,12 @@
 
 	public async Task Buscar()
 	{
+		if (filtrarPor == 0)
+		{
+			mensaje = "Debe indicar por cual método desea filtrar";
+			StateHasChanged();
+		}
+
 		switch(filtrarPor)
 		{
 			case 1:
@@ -151,7 +157,13 @@
 				break;
 		}
 
+		await LimpiarPantalla();
+	}
 
+	public async Task LimpiarPantalla()
+	{
+		await Task.Delay(2000);
+		mensaje = string.Empty;
 	}
 
 	public async Task Restablecer()

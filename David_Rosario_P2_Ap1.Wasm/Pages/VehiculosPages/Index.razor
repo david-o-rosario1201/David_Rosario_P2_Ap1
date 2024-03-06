@@ -19,17 +19,48 @@
 			}
 			else if(vehiculos.Count == 0)
 			{
-				<h1><i class="bi bi-exclamation-triangle"/> No hay veh&iacute;culos creados</h1>
+				<h1 class="miMensaje"><i class="bi bi-exclamation-triangle"/> No hay veh&iacute;culos creados</h1>
 			}
 			else
 			{
+				@*Filtro*@
+				<div class="row mb-3">
+					<div class="col-3">
+						@*Filtro*@
+						<label class="form-label" for="filtrarPor"><strong>Filtrar por:</strong></label>
+						<InputSelect id="filtrarPor" class="form-select" @bind-Value="filtrarPor">
+							<option value="1">Id</option>
+							<option value="2">Fecha</option>
+							<option value="3">Descripci&oacute;n</option>
+						</InputSelect>
+					</div>
+					@*Datos*@
+					<div class="col-3 d-flex align-items-end">
+						@switch (filtrarPor)
+						{
+							case 1:
+								<InputNumber class="form-control" @bind-Value="id"></InputNumber>
+								break;
+
+							case 2:
+								<InputDate class="form-control" @bind-Value="fecha"></InputDate>
+								break;
+
+							case 3:
+								<InputText class="form-control" @bind-Value="descripcion" placeholder="Ingrese una descripción"></InputText>
+								break;
+						}
+					</div>
+					<div class="col-auto d-flex align-items-end">
+						<button type="button" class="btn btn-outline-primary" @onclick="Buscar"><i class="bi bi-search" /></button>
+					</div>
+					<div class="col-3 d-flex align-items-end">
+						<button type="button" class="btn btn-outline-secondary" @onclick="Restablecer"><i class="bi bi-arrow-clockwise" /> Restablecer</button>
+					</div>
+				</div>
 				
-
-
-
-
 				@*Tabla*@
-				<table class="table table-bordered">
+				<table class="table table-bordered miTabla">
 					<thead>
 						<tr>
 							<th>Veh&iacute;culoId</th>
@@ -47,10 +78,10 @@
 						{
 							<tr>
 								<td>@vehiculo.VehiculoId</td>
-								<td>@vehiculo.Fecha</td>
+								<td>@vehiculo.Fecha.ToShortDateString()</td>
 								<td>@vehiculo.Descripcion</td>
-								<td>@vehiculo.Costo</td>
-								<td>@vehiculo.Gastos</td>
+								<td>@vehiculo.Costo.ToString("N2")</td>
+								<td>@vehiculo.Gastos.ToString("N2")</td>
 								<td><button type="button" class="btn btn-outline-info" @onclick="()=>IrAView(vehiculo.VehiculoId)"><i class="bi bi-eye" /></button></td>
 								<td><button type="button" class="btn btn-outline-warning" @onclick="()=>IrAEditar(vehiculo.VehiculoId)"><i class="bi bi-pencil-square" /></button></td>
 								<td><button type="button" class="btn btn-outline-danger" @onclick="()=>IrAEliminar(vehiculo.VehiculoId)"><i class="bi bi-trash3-fill" /></button></td>
@@ -65,10 +96,16 @@
 		</div>
 	</div>
 </div>
+@mensaje
 
 @code {
 	public bool loading { get; set; } = true;
 	public List<Vehiculos> vehiculos = new List<Vehiculos>();
+	public int filtrarPor { get; set; }
+	public int id { get; set; }
+	public DateTime fecha { get; set; } = DateTime.Today;
+	public string descripcion { get; set; }
+	public string mensaje { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -80,6 +117,46 @@
 
 		if (vehiculos.Count > 0)
 			StateHasChanged();
+	}
+
+	public async Task Buscar()
+	{
+		switch(filtrarPor)
+		{
+			case 1:
+				var buscarId = vehiculos.FirstOrDefault(v => v.VehiculoId == id);
+				if (buscarId != null)
+				{
+					vehiculos.Clear();
+					vehiculos.Add(buscarId);
+				}
+				else
+					mensaje = "No se encontró el Id. Verifique que este llenando el campo correctamente.";
+				break;
+
+			case 2:
+				var buscarFecha = vehiculos.Where(v => v.Fecha == fecha).ToList();
+				if (buscarFecha.Count > 0)
+					vehiculos = buscarFecha;
+				else
+					mensaje = "No se encontró nigún vehículo con esta fecha. Verifique que este llenando el campo correctamente.";
+				break;
+
+			case 3:
+				var buscarDesc = vehiculos.Where(v => v.Descripcion == descripcion).ToList();
+				if (buscarDesc.Count > 0)
+					vehiculos = buscarDesc;
+				else
+					mensaje = "No se encontró nigún vehículo con esta descripción. Verifique que este llenando el campo correctamente.";
+				break;
+		}
+
+
+	}
+
+	public async Task Restablecer()
+	{
+		vehiculos = await httpClient.GetFromJsonAsync<List<Vehiculos>>("api/Vehiculos");
 	}
 
 

@@ -15,7 +15,7 @@
 			@*Datos*@
 			<ul>
 				<li><strong>VehiculoId: </strong>@vehiculo.VehiculoId</li>
-				<li><strong>Fecha: </strong>@vehiculo.Fecha.ToShortDateString</li>
+				<li><strong>Fecha: </strong>@vehiculo.Fecha.ToShortDateString()</li>
 				<li><strong>Descripción: </strong>@vehiculo.Descripcion</li>
 				<li><strong>Costo: </strong>@vehiculo.Costo.ToString("N2")</li>
 				<li><strong>Gastos: </strong>@vehiculo.Gastos.ToString("N2")</li>
@@ -29,7 +29,7 @@
 				@*Tabla Detalles*@
 				@if (vehiculo.VehiculosDetalles.Count > 0)
 				{
-					<table class="table table-bordered">
+					<table class="table table-bordered miTabla">
 						<thead>
 							<tr>
 								<th>AccesorioId</th>
@@ -43,7 +43,7 @@
 								<tr>
 									<td>@detalle.AccesorioId</td>
 									<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
-									<td>@detalle.Valor</td>
+									<td>@detalle.Valor.ToString("N2")</td>
 								</tr>
 							}
 						</tbody>

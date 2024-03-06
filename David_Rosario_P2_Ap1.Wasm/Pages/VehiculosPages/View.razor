@@ -7,18 +7,24 @@
 <div class="container">
 	<div class="card shadow-lg">
 		<div class="card-header">
-			<h3><strong>Detalles de Veh&iacute;culo</strong></h3>
+			<h3><strong>Veh&iacute;culo</strong></h3>
 		</div>
 		<div class="card-body">
 			@*Datos*@
 			<ul>
 				<li><strong>VehiculoId: </strong>@vehiculo.VehiculoId</li>
-				<li><strong>Fecha: </strong>@vehiculo.Fecha.ToShortDateString</li>
+				<li><strong>Fecha: </strong>@vehiculo.Fecha.ToShortDateString()</li>
 				<li><strong>Descripción: </strong>@vehiculo.Descripcion</li>
 				<li><strong>Costo: </strong>@vehiculo.Costo.ToString("N2")</li>
 				<li><strong>Gastos: </strong>@vehiculo.Gastos.ToString("N2")</li>
 			</ul>
+		</div>
 
+		<div class="card card-header">
+			<h3><strong>Detalles</strong></h3>
+		</div>
+
+		<div class="card-body">
 			@*Tabla Detalles*@
 			@if (vehiculo.VehiculosDetalles.Count > 0)
 			{
@@ -44,6 +50,7 @@
 				<p><strong>Cantidad de Detalles: </strong>@vehiculo.VehiculosDetalles.Count</p>
 			}
 		</div>
+
 		<div class="card-footer">
 			<button type="button" class="btn btn-outline-primary" @onclick="Volver"><i class="bi bi-box-arrow-left" /> Volver</button>
 		</div>

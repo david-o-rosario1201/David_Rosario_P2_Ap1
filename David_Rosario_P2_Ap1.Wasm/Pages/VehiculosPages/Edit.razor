@@ -93,7 +93,7 @@
 									<tr>
 										<td>@detalle.AccesorioId</td>
 										<td>@ObtenerDescripcion(detalle.AccesorioId)</td>
-										<td>@detalle.Valor</td>
+										<td>@detalle.Valor.ToString("N2")</td>
 										<td><button type="button" class="btn btn-outline-danger" @onclick="()=>EliminarDetalle(detalle)"><i class="bi bi-trash3-fill" /></button></td>
 									</tr>
 								}

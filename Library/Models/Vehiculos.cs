@@ -22,7 +22,7 @@ public class Vehiculos
     [Range(0.01,float.MaxValue, ErrorMessage = "La cantidad para el costo del vehículo no es válida")]
     public decimal Costo { get; set; }
 
-	[Range(0.01, float.MaxValue, ErrorMessage = "La cantidad para el gasto del vehículo no es válida")]
+	[Range(0, float.MaxValue, ErrorMessage = "La cantidad para el gasto del vehículo no es válida")]
 	public decimal Gastos { get; set; }
 
 

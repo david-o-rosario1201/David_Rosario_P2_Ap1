@@ -112,7 +112,31 @@ namespace David_Rosario_P2_Ap1.Api.Controllers
             return NoContent();
         }
 
-        private bool VehiculosExists(int id)
+
+
+		[HttpDelete("{vehiculoId}/Detalle/{detalleId}")]
+		public async Task<IActionResult> DeleteVehiculos(int vehiculoId, int detalleId)
+		{
+            var vehiculos = await _context.Vehiculos.Include(v => v.VehiculosDetalles).FirstOrDefaultAsync(v => v.VehiculoId == vehiculoId);
+			if (vehiculos == null)
+			{
+				return NotFound();
+			}
+
+            var detalle = vehiculos.VehiculosDetalles.FirstOrDefault(d => d.Id == detalleId);
+
+            if (detalle == null)
+            {
+                return NotFound();
+            }
+
+			vehiculos.VehiculosDetalles.Remove(detalle);
+			await _context.SaveChangesAsync();
+
+			return NoContent();
+		}
+
+		private bool VehiculosExists(int id)
         {
             return _context.Vehiculos.Any(e => e.VehiculoId == id);
         }

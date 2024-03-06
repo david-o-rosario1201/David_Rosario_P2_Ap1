@@ -15,7 +15,7 @@
 					@*VehiculoId*@
 					<div class="col-4">
 						<label class="form-label" for="vehiculoId"><strong>Veh&iacute;culoId:</strong></label>
-						<InputNumber id="vehiculoId" class="form-control" @bind-Value="vehiculo.VehiculoId" disabled></InputNumber>
+						<InputNumber id="vehiculoId" class="form-control" @bind-Value="vehiculo.VehiculoId"></InputNumber>
 					</div>
 					@*Fecha*@
 					<div class="col-4">
@@ -39,7 +39,7 @@
 					@*Gastos*@
 					<div class="col-4">
 						<label class="form-label" for="gastos"><strong>Gastos:</strong></label>
-						<InputNumber id="gastos" class="form-control" @bind-Value="vehiculo.Gastos"></InputNumber>
+						<InputNumber id="gastos" class="form-control" @bind-Value="vehiculo.Gastos" disabled></InputNumber>
 						<ValidationMessage For="@(()=> vehiculo.Gastos)"></ValidationMessage>
 					</div>
 				</div>
@@ -78,7 +78,7 @@
 					@*Tabla Detalles*@
 					@if (vehiculo.VehiculosDetalles.Count > 0)
 					{
-						<table class="table table-bordered">
+						<table class="table table-bordered miTabla">
 							<thead>
 								<tr>
 									<th>AccesorioId</th>
@@ -134,13 +134,17 @@
 		if(response.IsSuccessStatusCode)
 		{
 			mensaje = "Vehículo creado con éxito";
+			StateHasChanged();
+			await Task.Delay(2000);
+			Volver();
 		}
 		else
 		{
 			mensaje = "No se pudo crear el vehículo con éxito";
+			StateHasChanged();
 		}
 
-		StateHasChanged();
+		
 	}
 
 	public async Task AgregarDetalle()
@@ -150,18 +154,20 @@
 			mensaje = "Debe elegir un accesorioId";
 		}
 
-		else if(valor == 0)
+		else if(valor <= 0)
 		{
-			mensaje = "Debe ingresar un valor";
+			mensaje = "El valor debe ser mayor que 0";
 		}
 
 		else
 		{
 			var nuevoDetalle = new VehiculosDetalle() { AccesorioId = accesorioId, Valor = valor};
+			vehiculo.Gastos += valor;
 			vehiculo.VehiculosDetalles.Add(nuevoDetalle);
 		}
 
 		StateHasChanged();
+		await LimpiarPantalla();
 	}
 
 
@@ -169,6 +175,14 @@
 	{
 		var descripcion = accesorios.FirstOrDefault(a => a.AccesorioId == id);
 		return descripcion.Descripcion;
+	}
+
+	public async Task LimpiarPantalla()
+	{
+		valor = 0;
+		accesorioId = 0;
+		await Task.Delay(2000);
+		mensaje = string.Empty;
 	}
 
 
@@ -181,6 +195,7 @@
 		var borrar = vehiculo.VehiculosDetalles.FirstOrDefault(v => v.AccesorioId == id);
 		if(borrar != null)
 		{
+			vehiculo.Gastos -= borrar.Valor;
 			vehiculo.VehiculosDetalles.Remove(borrar);
 		}
 	}

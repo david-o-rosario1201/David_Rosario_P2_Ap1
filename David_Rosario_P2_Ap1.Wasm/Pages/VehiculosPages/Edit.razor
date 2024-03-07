@@ -139,6 +139,8 @@
 		if (listaTemporal.Count > 0)
 			await BorrarDetalleDB();
 
+			await httpClient.PostAsJsonAsync("api/Vehiculos",vehiculo);
+
 		var response = await httpClient.PutAsJsonAsync($"api/Vehiculos/{vehiculoId}",vehiculo);
 		if (response.IsSuccessStatusCode)
 		{

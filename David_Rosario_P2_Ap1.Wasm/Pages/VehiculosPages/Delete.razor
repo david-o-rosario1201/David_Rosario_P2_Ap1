@@ -29,6 +29,9 @@
 				@*Tabla Detalles*@
 				@if (vehiculo.VehiculosDetalles.Count > 0)
 				{
+
+					<h4><strong>Detalles:</strong></h4>
+
 					<table class="table table-bordered miTabla">
 						<thead>
 							<tr>
@@ -86,7 +89,10 @@
 		var response = await httpClient.DeleteAsync($"api/Vehiculos/{vehiculoId}");
 		if (response.IsSuccessStatusCode)
 		{
-			mensaje = "Vehículo elimiando con éxito";
+			mensaje = "Vehículo eliminado con éxito";
+			StateHasChanged();
+			await Task.Delay(2000);
+			Volver();
 		}
 		else
 		{
@@ -117,21 +123,14 @@
 		StateHasChanged();
 	}
 
-
 	public string ObtenerDescripcion(int id)
 	{
 		var descripcion = accesorios.FirstOrDefault(a => a.AccesorioId == id);
 		return descripcion.Descripcion;
 	}
 
-
 	public void Volver()
 	{
 		navigation.NavigateTo("/Vehiculos");
-	}
-
-	public void EliminarDetalle(int id)
-	{
-
 	}
 }
